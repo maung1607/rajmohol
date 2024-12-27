@@ -24,7 +24,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="chat.html">All Rooms</a></li>
                     <li><a class="nav-link" href="portfolio.html">Add Room</a></li>
-                    <li><a class="nav-link" href="blog.html">All Room Classes</a></li>
+                    <li><a class="nav-link" href="{{ route('room.class.index') }}">All Room Classes</a></li>
                     <li><a class="nav-link" href="calendar.html">Add Room Class</a></li>
                 </ul>
             </li>

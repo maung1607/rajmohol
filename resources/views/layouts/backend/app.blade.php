@@ -8,6 +8,8 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/assets/bundles/datatables/datatables.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
   <!-- Custom style CSS -->
   <link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}">
   <link rel='shortcut icon' type='image/x-icon' href='{{ asset('backend/assets/img/favicon.ico') }}' />
@@ -33,10 +35,18 @@
   <script src="{{ asset('backend/assets/bundles/apexcharts/apexcharts.min.js') }}"></script>
   <!-- Page Specific JS File -->
   <script src="{{ asset('backend/assets/js/page/index.js') }}"></script>
+
+  <script src="{{ asset('backend/assets/bundles/datatables/datatables.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
+  <!-- Page Specific JS File -->
+  <script src="{{ asset('backend/assets/js/page/datatables.js') }}"></script>
   <!-- Template JS File -->
   <script src="{{ asset('backend/assets/js/scripts.js') }}"></script>
   <!-- Custom JS File -->
   <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
+
+  @stack('script')
 </body>
 
 </html>
