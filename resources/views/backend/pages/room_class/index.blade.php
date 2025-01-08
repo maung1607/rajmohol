@@ -7,11 +7,9 @@
     <div class="row">
         <div class="col-12 col-sm-12 col-lg-12">
             <div class="card ">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h4>Room Class</h4>
-                        <button class="btn btn-primary">+</button>
-                    </div>
+                <div class="d-flex justify-content-between align-items-center border p-3">
+                    <h5>Room Classes</h5>
+                    <button class="btn btn-info">Add Room Class</button>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -23,6 +21,7 @@
                                         <th>Description</th>
                                         <th>Price</th>
                                         <th>Discount</th>
+                                        <th>Image</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -65,6 +64,9 @@
                     },
                     {
                         data: 'discount'
+                    },
+                    {
+                        data: 'image'
                     },
                     {
                         data: 'actions'
