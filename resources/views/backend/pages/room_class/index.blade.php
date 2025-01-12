@@ -9,7 +9,7 @@
             <div class="card ">
                 <div class="d-flex justify-content-between align-items-center border p-3">
                     <h5>Room Classes</h5>
-                    <button class="btn btn-info">Add Room Class</button>
+                    <a  href="{{ route('room.class.create') }}" class="btn btn-info">Add Room Class</a>
                 </div>
                 <div class="card-body">
                     <div class="row">

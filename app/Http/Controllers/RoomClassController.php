@@ -42,18 +42,28 @@ class RoomClassController extends Controller
             ->addColumn('image', function ($roomClass) {
                 // Check if an image is present
                 if ($roomClass->image) {
-                    return '<img src="' . $roomClass->image->value . '" alt="image" class="tb-image"   />';
+                    return '<img src="' . asset($roomClass->image->value) . '" alt="image" class="tb-image w-[100px] h-[100px]" height="100px" width="100px"   />';
                 } else {
                     return ''; // Handle case where no image is found
                 }
             })
             ->addColumn('actions', function ($roomClass) {
                 $btns = '
-            <div class="btn-group">
-                <button class="btn btn-primary edit_btn" data-id="' . $roomClass->id . '">Edit</button>
-                <button class="btn btn-danger delete_btn" data-id="' . $roomClass->id . '">Delete</button>
-            </div>';
-                return $btns;
+                <div class="btn-group">
+                    <a href="' . route('room.class.edit', ['id' => $roomClass->id]) . '"
+                       class="btn btn-primary edit_btn"
+                       data-id="' . htmlspecialchars($roomClass->id, ENT_QUOTES, 'UTF-8') . '">
+                       Edit
+                    </a>
+                    <a href="' . route('room.class.delete', ['id' => $roomClass->id]) . '"
+                       class="btn btn-danger delete_btn"
+                       data-id="' . htmlspecialchars($roomClass->id, ENT_QUOTES, 'UTF-8') . '"
+                       onclick="return confirm(\'Are you sure you want to delete this item?\')">
+                       Delete
+                    </a>
+                </div>';
+            return $btns;
+
             })
             ->rawColumns(['image','actions'])
             ->make(true);
@@ -93,17 +103,47 @@ class RoomClassController extends Controller
 
         return redirect()->back()->with('success', 'Room class created successfully!');
     }
-    public function show($id)
+    public function edit($id)
     {
-        $roomClass = RoomClass::findOrFail($id);
+        $roomClass = RoomClass::with('image')->findOrFail($id);
+        return view('backend.pages.room_class.edit',['roomClass'=> $roomClass]);
     }
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $roomClass = RoomClass::findOrFail($id);
-        $roomClass->update($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'description' => 'required|string|max:1000',
+            'image' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'name.required' => 'The name field is required.',
+            'price.numeric' => 'The price must be a valid number.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif.',
+        ]);
+
+        $roomClass = RoomClass::with('image')->where('id', $request->id)->first();
+        $roomClass->name = $request->input('name');
+        $roomClass->price = $request->input('price');
+        $roomClass->discount = $request->input('discount');
+        $roomClass->description = $request->input('description');
+        $roomClass->save();
+
+        if($request->hasFile('image'))
+        {
+            if(file_exists($roomClass?->image?->value))
+            {
+                unlink($roomClass?->image->value);
+                $roomClass?->image->delete();
+            }
+            uploadImage($request->file('image'), 'uploads/images/room_class', RoomClass::class, $roomClass->id);
+        }
+
+        return redirect()->route('room.class.index')->with('success', 'Room class updated successfully!');
     }
     public function destroy($id)
     {
         RoomClass::destroy($id);
+        return redirect()->route('room.class.index')->with('success', 'Room class deleted successfully!');
     }
 }
