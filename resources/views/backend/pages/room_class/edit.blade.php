@@ -41,11 +41,12 @@
                             <div class="row">
                                 <!-- Left Column -->
                                 <div class="col-md-6">
-                                    <input type="hidden" name="id" value="{{ $roomClass->id}} ">
+                                    <input type="hidden" name="id" value="{{ $roomClass->id }} ">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input id="name" type="text" name="name" class="form-control"
-                                            placeholder="Enter room class type name" value="{{ $roomClass->name??old('name') }}">
+                                            placeholder="Enter room class type name"
+                                            value="{{ $roomClass->name ?? old('name') }}">
                                         @if ($errors->has('name'))
                                             <small class="text-danger">{{ $errors->first('name') }}</small>
                                         @endif
@@ -54,7 +55,7 @@
                                     <div class="form-group">
                                         <label for="price">Price(Tk)</label>
                                         <input id="price" type="text" name="price" placeholder="Enter amount"
-                                            class="form-control" value="{{ $roomClass->price??old('price') }}">
+                                            class="form-control" value="{{ $roomClass->price ?? old('price') }}">
                                         @if ($errors->has('price'))
                                             <small class="text-danger">{{ $errors->first('price') }}</small>
                                         @endif
@@ -65,19 +66,23 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="file">Image</label>
-                                        <input id="file" type="file" name="image" class="form-control">
-                                        @if ($errors->has('image'))
-                                            <small class="text-danger">{{ $errors->first('image') }}</small>
-                                        @endif
+                                        <div class="d-flex">
+                                            <input id="file" type="file" name="image" class="form-control mr-2">
+                                            @if ($roomClass?->image?->value)
+                                                <img src="{{ asset($roomClass?->image?->value) }}" class=""
+                                                    alt="{{ $roomClass?->image?->value }}" width="100" height="100">
+                                            @endif
+
+                                            @if ($errors->has('image'))
+                                                <small class="text-danger">{{ $errors->first('image') }}</small>
+                                            @endif
+                                        </div>
                                     </div>
-                                    {{-- @if($roomClass?->image?->value){
-                                        <img src="{{ asset($roomClass?->image?->value) }}" alt="{{ $roomClass?->image?->value }}" width="100" height="100">
-                                    } --}}
 
                                     <div class="form-group">
                                         <label for="discount">Discount(%)</label>
                                         <input id="discount" type="text" name="discount" placeholder="Enter discount"
-                                            class="form-control" value="{{ $roomClass->discount??old('discount') }}">
+                                            class="form-control" value="{{ $roomClass->discount ?? old('discount') }}">
                                         @if ($errors->has('discount'))
                                             <small class="text-danger">{{ $errors->first('discount') }}</small>
                                         @endif
@@ -86,7 +91,7 @@
 
                                 <div class="col-md-12">
                                     <label for="description">Description</label>
-                                    <textarea id="description" name="description" class="form-control" placeholder="Enter description">{{ $roomClass->description??old('description') }}</textarea>
+                                    <textarea id="description" name="description" class="form-control" placeholder="Enter description">{{ $roomClass->description ?? old('description') }}</textarea>
                                     @if ($errors->has('description'))
                                         <small class="text-danger">{{ $errors->first('description') }}</small>
                                     @endif

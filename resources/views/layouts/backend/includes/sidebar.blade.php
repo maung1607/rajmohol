@@ -48,7 +48,7 @@
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="flag"></i><span>Rooms</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('room.class.index') }}">All Rooms</a></li>
+                    <li><a class="nav-link" href="{{ route('room.index') }}">All Rooms</a></li>
                 </ul>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('room.class.index') }}">All Room Classes</a></li>
