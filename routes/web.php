@@ -19,3 +19,4 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 require __DIR__.'/room_routes.php';
+require __DIR__.'/booking_routes.php';

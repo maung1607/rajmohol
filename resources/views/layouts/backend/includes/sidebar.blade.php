@@ -15,7 +15,7 @@
                         data-feather="briefcase"></i><span>Bookings</span></a>
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="widget-chart.html">Add Booking</a></li>
-                    <li><a class="nav-link" href="widget-data.html">All Bookings</a></li>
+                    <li><a class="nav-link" href="{{ route('booking.index') }}">All Bookings</a></li>
                 </ul>
             </li>
             <li class="dropdown">
