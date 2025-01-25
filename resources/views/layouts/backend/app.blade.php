@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="{{ asset('backend/assets/bundles/datatables/datatables.min.css') }}">
   <link rel="stylesheet" href="{{ asset('backend/assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
   <!-- Custom style CSS -->
+   <link rel="stylesheet" href="{{ asset('backend/assets/bundles/select2/dist/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/assets/bundles/jquery-selectric/selectric.css') }}">
   <link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}">
   <link rel='shortcut icon' type='image/x-icon' href='{{ asset('backend/assets/img/favicon.ico') }}' />
 </head>
@@ -41,6 +43,11 @@
   <script src="{{ asset('backend/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
   <!-- Page Specific JS File -->
   <script src="{{ asset('backend/assets/js/page/datatables.js') }}"></script>
+
+
+   <script src="{{ asset('backend/assets/bundles/select2/dist/js/select2.full.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/bundles/jquery-selectric/jquery.selectric.min.js') }}"></script>
+  <script src="{{ asset('backend/assets/js/page/forms-advanced-forms.js') }}"></script>
   <!-- Template JS File -->
   <script src="{{ asset('backend/assets/js/scripts.js') }}"></script>
   <!-- Custom JS File -->
