@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Enum\RoomInfoStatusEnum;
 use App\Http\Controllers\Controller;
+use App\Models\AssignRoom;
 use App\Models\Reservation;
+use App\Models\RoomInfo;
 use App\Services\BookingService;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
@@ -96,26 +100,48 @@ class BookingController extends Controller
     }
     public function create()
     {
-        return view('backend.pages.booking.create');
+        $rooms = RoomInfo::where('status',RoomInfoStatusEnum::AVAILABLE)->get();
+        return view('backend.pages.booking.create',['rooms'=>$rooms]);
     }
     public function store(Request $request)
     {
+        //return $request->all();
+        DB::beginTransaction();
         $request->validate([
             'check_in_date' => 'required|date',
             'check_out_date' => 'required|date|after_or_equal:check_in_date',
             'name' => 'required|string',
             'phone_number' => 'required|string',
             'email' => 'nullable|email',
-            'status' => 'required|string',
-            'address_line_1' => 'required|string',
+            'adults' => 'required|numeric',
+            'nid' => 'required',
+            'children' => 'required|numeric',
+            'address' => 'required|string',
             'city' => 'required|string',
-            'state' => 'required|string',
-            'postal_code' => 'required|string',
-            'country' => 'required|string',
+            'postal_code' => 'required',
+            'actual_amount' => 'required|numeric|min:0',
+            'paid_amount' => 'required|numeric|min:0|lte:actual_amount',
+            'payment_method' => 'required|string',
+            'status' => 'required|string',
+            'assign_rooms' => 'nullable|array',
         ]);
-
+        
         $reservation = $this->bookingService->createBooking($request);
+        Log::info($reservation);
+        if ($reservation && $request->assign_rooms) {
+            foreach ($request->assign_rooms as $roomId) {
+                AssignRoom::create([
+                    'reservation_id' => $reservation->id,
+                    'room_info_id' => $roomId,
+                ]);
+            }
 
-        return redirect()->back()->with('success','Booking created successfully');
+            RoomInfo::whereIn('id', $request->assign_rooms)->update([
+                'status' => RoomInfoStatusEnum::OCCOPEID,
+            ]);
+        }
+        DB::commit();
+        flash()->option('position', 'bottom-right')->success('Booking created successfully!.');
+        return redirect()->back();
     }
 }

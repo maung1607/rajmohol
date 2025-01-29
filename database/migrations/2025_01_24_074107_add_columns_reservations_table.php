@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('reservations', function (Blueprint $table) {
             $table->bigInteger('booking_id')->after('id');
+            $table->bigInteger('address_id')->after('customer_id');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('reservations', function (Blueprint $table) {
             $table->dropColumn('booking_id');
+            $table->dropColumn('address_id');
         });
     }
 };

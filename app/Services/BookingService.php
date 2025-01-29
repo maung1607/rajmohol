@@ -2,102 +2,124 @@
 
 namespace App\Services;
 
+use App\Enum\PaymentStatusEnum;
 use App\Models\Address;
 use App\Models\Payments;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class BookingService
 {
     public function createBooking($request)
     {
-        DB::beginTransaction(); 
 
         try {
+            Log::info($request);
             // Step 1: Create or retrieve the user
             $user = $this->createUser($request);
+            Log::info($user);
 
             // Step 2: Add the address
             $address = $this->addAddress($user->id, $request);
-
-            // Step 3: Create the reservation
-            $uniqueBookingId = $this->generateUniqueBookingId();
+            Log::info($address);
+            // Step 3: Create the payment
             $payment = $this->createPayment($request);
+            Log::info($payment);
+            // Step 4: Generate a unique booking ID
+            $uniqueBookingId = $this->generateUniqueBookingId();
+
+            // Step 5: Create the reservation
             $reservation = Reservation::create([
                 'booking_id' => $uniqueBookingId,
                 'payment_id' => $payment->id,
                 'customer_id' => $user->id,
-                'creator_id' => auth()->id,
+                'address_id' => $address->id,
+                'creator_id' => auth()->id(),
                 'check_in_date' => $request->check_in_date,
                 'check_out_date' => $request->check_out_date,
-                'day_range' => $request->day_range,
-                'special_request' => $request->special_request,
+                'day_range' => $request->day_range ?? 1, 
+                'adults' => $request->adults,
+                'children' => $request->children,
+                'special_request' => $request->special_request ?? '',
                 'status' => $request->status,
             ]);
 
-            DB::commit(); 
+
+      
 
             return $reservation; 
         } catch (\Exception $e) {
-            DB::rollBack(); 
+            Log::error('Booking creation failed: ' . $e->getMessage());
             throw $e; 
         }
     }
 
     private function generateUniqueBookingId()
     {
-        
-        return time();
+        do {
+            $bookingId = random_int(1000000, 9999999); 
+        } while ($this->bookingIdExists($bookingId)); 
+    
+        return $bookingId;
     }
-
+    
+    private function bookingIdExists($bookingId)
+    {
+        return Reservation::where('booking_id', $bookingId)->exists();
+    }
+    
     public function createUser($request)
     {
-        $user = User::where('email', $request->email)
-            ->orWhere('phone_number', $request->phone_number)
-            ->first();
-
-        if (!$user) {
-            $user = User::create([
-                'name' => $request->name,
+        // Retrieve or create a new user
+        return User::firstOrCreate(
+            [
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-            ]);
-        }
-
-        return $user;
+                'password'=> '',
+            ],
+            [
+                'name' => $request->name,
+            ]
+        );
     }
 
     public function addAddress($customerId, $request)
     {
-        $address = Address::create([
+        // Create a new address for the customer
+        return Address::create([
             'customer_id' => $customerId,
-            'address_line_1' => $request->address_line_1,
-            'address_line_2' => $request->address_line_2 ?? null,
-            'city' => $request->city,
-            'state' => $request->state,
+            'nid' => $request->nid ?? '',
+            'address' => $request->address ?? '',
+            'city' => $request->city ?? '',
             'postal_code' => $request->postal_code,
-            'country' => $request->country,
         ]);
-
-        return $address;
     }
+
     public function createPayment($request)
     {
-        $payment = Payments::create([
+        // Create a payment record
+        $dueAmount = $request->actual_amount - $request->paid_amount;
+        $status = PaymentStatusEnum::PENDING;
+        if($dueAmount !==0)
+        {
+            $status = PaymentStatusEnum::DUE;
+        }
+        else {
+            $status = PaymentStatusEnum::PENDING;
+        }
+        return Payments::create([
             'payment_number' => $this->generateUniqueBookingId(),
             'actual_amount' => $request->actual_amount,
-            'total_amount' => $request->total_amount,
+            'total_amount' => $request->actual_amount,
             'paid_amount' => $request->paid_amount,
-            'due_amount' => $request->due_amount,
-            'discount' => $request->discount,
+            'due_amount' => $request->actual_amount - $request->paid_amount,
+            'discount' => $request->discount ?? 0,
             'payment_method' => $request->payment_method,
-            'status' => $request->status,
-            'payment_date' => $request->payment_date,
+            'status' => $status,
+            'payment_date' => $request->payment_date ?? now(),
         ]);
-        return $payment;
-
     }
-
-
 }

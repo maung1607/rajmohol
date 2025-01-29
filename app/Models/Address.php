@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Address extends Model
 {
     use SoftDeletes;
+    protected $fillable = ['customer_id','nid','address','city','postal_code'];
 }
