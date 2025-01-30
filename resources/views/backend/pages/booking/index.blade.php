@@ -24,7 +24,7 @@ Booking | List
                                     <th>Adults</th>
                                     <th>Children</th>
                                     <th>Day Range</th>
-                                    <th>Special Request</th>
+                                    <th>Payment Info</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -79,7 +79,7 @@ Booking | List
                     data: 'day_range'
                 }
                 , {
-                    data: 'special_request'
+                    data: 'payment_info'
                 }
                 , {
                     data: 'status'

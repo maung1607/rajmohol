@@ -31,12 +31,14 @@ class BookingController extends Controller
     }
     public function getData(Request $request)
     {
-        $reservations = Reservation::with('customer')->latest();
+        $reservations = Reservation::with(['customer','payment'])->latest();
 
 
         if ($request->has('search') && !empty($request->search['value'])) {
             $search = $request->search['value'];
-            $reservations->whereHas('customer', function ($query) use ($search) {
+            $reservations
+            ->where('booking_id','like', "%{$search}%")
+            ->orWhereHas('customer', function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('email', 'like', "%{$search}%");
             });
@@ -44,12 +46,12 @@ class BookingController extends Controller
 
         return DataTables::of($reservations)
             ->addColumn('booking_id', function ($record) {
-                return $record->id;
+                return $record->booking_id;
             })
             ->addColumn('customer_info', function ($record) {
-                $col = "<div> Name: " . $record?->customer?->name . "</div>";
-                $col += "<div> Email: " . $record?->customer?->email . "</div>";
-                // $col += "<div> Phone: ".$record?->customer?->phone."</div>";
+                $col= "<div> <strong>Name:</strong> " . $record?->customer?->name . "</div>";
+                $col .= "<div> <strong>Email: </strong>" . $record?->customer?->email . "</div>";
+                $col .= "<div> <strong>Phone: </strong>".$record?->customer?->phone_number."</div>";
                 return $col;
             })
             ->addColumn('check_in', function ($record) {
@@ -70,32 +72,59 @@ class BookingController extends Controller
             ->addColumn('day_range', function ($record) {
                 return $record->day_range;
             })
-            ->addColumn('special_request', function ($record) {
-                return $record->special_request;
+            ->addColumn('payment_info', function ($record) {
+                $statusColors = [
+                    'Pending' => 'info',
+                    'Due' => 'warning',
+                    'Failed' => 'danger',
+                    'Completed' => 'success',
+                ];
+                $paymentStatus = $record?->payment?->status ?? 'Pending'; 
+                $badgeColor = $statusColors[$paymentStatus] ?? 'secondary'; 
+                
+                $col = "<div><strong>Actual Amount:</strong> &#2547;" . $record?->payment?->actual_amount . "</div>";
+                $col .= "<div><strong>Paid Amount:</strong> &#2547;" . $record?->payment?->paid_amount . "</div>";
+                $col .= "<div><strong>Due Amount:</strong> &#2547;" . $record?->payment?->due_amount . "</div>";
+                $col .= "<div><strong>Method:</strong> " . $record?->payment?->payment_method . "</div>";
+                $col .= "<div><strong>Payment Status:</strong> <span class='badge text-white bg-$badgeColor'>" . ucfirst($paymentStatus) . "</span></div>";                
+                return $col;
             })
             ->addColumn('status', function ($record) {
-                return $record->status;
+                $statusColors = [
+                    'Pending' => 'warning',
+                    'Confirmed' => 'primary',
+                    'Cancelled' => 'danger',
+                    'Completed' => 'success',
+                ];
+            
+                $badgeColor = $statusColors[$record->status] ?? 'secondary';
+            
+                return '<span class="text-white badge bg-' . $badgeColor . '">' . ucfirst($record->status) . '</span>';
             })
-
-
-            ->addColumn('actions', function ($roomClass) {
+            ->addColumn('actions', function ($record) {
                 $btns = '
                 <div class="btn-group">
-                    <a href="' . route('room.class.edit', ['id' => $roomClass->id]) . '"
+                    <a href="' . route('booking.edit', ['booking_id' => $record->booking_id]) . '"
                        class="btn btn-primary edit_btn"
-                       data-id="' . htmlspecialchars($roomClass->id, ENT_QUOTES, 'UTF-8') . '">
+                       data-id="' . htmlspecialchars($record->id, ENT_QUOTES, 'UTF-8') . '">
                        Edit
                     </a>
-                    <a href="' . route('room.class.delete', ['id' => $roomClass->id]) . '"
+                    <a href="' . route('booking.delete', ['booking_id' => $record->booking_id]) . '"
                        class="btn btn-danger delete_btn"
-                       data-id="' . htmlspecialchars($roomClass->id, ENT_QUOTES, 'UTF-8') . '"
+                       data-id="' . htmlspecialchars($record->id, ENT_QUOTES, 'UTF-8') . '"
                        onclick="return confirm(\'Are you sure you want to delete this item?\')">
                        Delete
+                    </a>
+                     <a href="' . route('booking.details', ['booking_id' => $record->booking_id]) . '"
+                       class="btn btn-info"
+                       data-id="' . htmlspecialchars($record->id, ENT_QUOTES, 'UTF-8') . '"
+                      >
+                       Details
                     </a>
                 </div>';
                 return $btns;
             })
-            ->rawColumns(['customer_info', 'actions'])
+            ->rawColumns(['customer_info','payment_info','status', 'actions'])
             ->make(true);
     }
     public function create()
@@ -143,5 +172,17 @@ class BookingController extends Controller
         DB::commit();
         flash()->option('position', 'bottom-right')->success('Booking created successfully!.');
         return redirect()->back();
+    }
+
+    public function edit($booking_id)
+    {
+        $reservation = Reservation::with(['customer','address','payment','assign_rooms'])
+                                    ->where('booking_id',$booking_id)->first();
+        $rooms = RoomInfo::get();
+        return view('backend.pages.booking.edit',['rooms'=>$rooms,'reservation'=>$reservation]);
+    }
+
+    public function update(Request $request){
+        
     }
 }

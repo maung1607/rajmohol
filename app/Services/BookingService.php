@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\Payments;
 use App\Models\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -32,6 +33,10 @@ class BookingService
             $uniqueBookingId = $this->generateUniqueBookingId();
 
             // Step 5: Create the reservation
+
+            $checkInDate = Carbon::parse($request->check_in_date);
+            $checkOutDate = Carbon::parse($request->check_out_date);
+            $dayRange = $checkInDate->diffInDays($checkOutDate) ?: 1;
             $reservation = Reservation::create([
                 'booking_id' => $uniqueBookingId,
                 'payment_id' => $payment->id,
@@ -40,7 +45,7 @@ class BookingService
                 'creator_id' => auth()->id(),
                 'check_in_date' => $request->check_in_date,
                 'check_out_date' => $request->check_out_date,
-                'day_range' => $request->day_range ?? 1, 
+                'day_range' => $dayRange,
                 'adults' => $request->adults,
                 'children' => $request->children,
                 'special_request' => $request->special_request ?? '',
@@ -122,4 +127,9 @@ class BookingService
             'payment_date' => $request->payment_date ?? now(),
         ]);
     }
+
+
+
+
+    
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
@@ -25,6 +26,22 @@ class Reservation extends Model
 
     public function customer(): BelongsTo
     {
-        return $this->BelongsTo(User::class, 'customer_id');
+        return $this->belongsTo(User::class, 'customer_id');
     }
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'address_id');
+    }
+    
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(Payments::class,'payment_id');
+    }
+
+    public function assign_rooms(): HasMany
+    {
+        return $this->hasMany(AssignRoom::class,'reservation_id');
+    }
+
+    
 }
