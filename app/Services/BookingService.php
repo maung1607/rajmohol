@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Enum\PaymentStatusEnum;
+use App\Enum\RoomInfoStatusEnum;
 use App\Models\Address;
+use App\Models\AssignRoom;
 use App\Models\Payments;
 use App\Models\Reservation;
+use App\Models\RoomInfo;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -53,29 +56,29 @@ class BookingService
             ]);
 
 
-      
 
-            return $reservation; 
+
+            return $reservation;
         } catch (\Exception $e) {
             Log::error('Booking creation failed: ' . $e->getMessage());
-            throw $e; 
+            throw $e;
         }
     }
 
     private function generateUniqueBookingId()
     {
         do {
-            $bookingId = random_int(1000000, 9999999); 
-        } while ($this->bookingIdExists($bookingId)); 
-    
+            $bookingId = random_int(1000000, 9999999);
+        } while ($this->bookingIdExists($bookingId));
+
         return $bookingId;
     }
-    
+
     private function bookingIdExists($bookingId)
     {
         return Reservation::where('booking_id', $bookingId)->exists();
     }
-    
+
     public function createUser($request)
     {
         // Retrieve or create a new user
@@ -83,7 +86,7 @@ class BookingService
             [
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'password'=> '',
+                'password' => '',
             ],
             [
                 'name' => $request->name,
@@ -107,14 +110,16 @@ class BookingService
     {
         // Create a payment record
         $dueAmount = $request->actual_amount - $request->paid_amount;
+        $dueAmount = $request->actual_amount - $request->paid_amount;
         $status = PaymentStatusEnum::PENDING;
-        if($dueAmount !==0)
-        {
+        if ($dueAmount !== 0) {
             $status = PaymentStatusEnum::DUE;
-        }
-        else {
+        } elseif ($dueAmount == 0) {
+            $status = PaymentStatusEnum::COMPLETED;
+        } else {
             $status = PaymentStatusEnum::PENDING;
         }
+
         return Payments::create([
             'payment_number' => $this->generateUniqueBookingId(),
             'actual_amount' => $request->actual_amount,
@@ -128,8 +133,100 @@ class BookingService
         ]);
     }
 
+    /********* Update Booking **********/
+    public function updateBooking($request)
+    {
+
+        try {
+
+            $checkInDate = Carbon::parse($request->check_in_date);
+            $checkOutDate = Carbon::parse($request->check_out_date);
+            $dayRange = $checkInDate->diffInDays($checkOutDate) ?: 1;
+
+            // Retrieve the reservation object
+            $reservation = Reservation::find($request->id);
+
+            if (!$reservation) {
+                return back()->withErrors(['error' => 'Reservation not found.']);
+            }
+
+            // Update reservation
+            $reservation->update([
+                'creator_id' => auth()->id(),
+                'check_in_date' => $request->check_in_date,
+                'check_out_date' => $request->check_out_date,
+                'day_range' => $dayRange,
+                'adults' => $request->adults,
+                'children' => $request->children,
+                'status' => $request->status,
+            ]);
+
+            // Update address if it exists
+            if ($reservation->address_id) {
+                Address::where('id', $reservation->address_id)->update([
+                    'nid' => $request->nid ?? '',
+                    'address' => $request->address ?? '',
+                    'city' => $request->city ?? '',
+                    'postal_code' => $request->postal_code,
+                ]);
+            }
+
+            // Calculate due amount & determine status
+            $dueAmount = $request->actual_amount - $request->paid_amount;
+            $status = ($dueAmount > 0) ? PaymentStatusEnum::DUE : PaymentStatusEnum::COMPLETED;
+
+            // Update payment if it exists
+            if ($reservation->payment_id) {
+                Payments::where('id', $reservation->payment_id)->update([
+                    'payment_number' => $this->generateUniqueBookingId(),
+                    'actual_amount' => $request->actual_amount,
+                    'total_amount' => $request->actual_amount,
+                    'paid_amount' => $request->paid_amount,
+                    'due_amount' => $dueAmount,
+                    'discount' => $request->discount ?? 0,
+                    'payment_method' => $request->payment_method,
+                    'status' => $status,
+                ]);
+            }
+
+            if ($reservation && $request->assign_rooms) {
+
+                $existingAssignedRooms = AssignRoom::where('reservation_id', $reservation->id)->pluck('room_info_id')->toArray();
 
 
+                $newAssignedRooms = $request->assign_rooms;
+                $roomsToAdd = array_diff($newAssignedRooms, $existingAssignedRooms);
+                $roomsToRemove = array_diff($existingAssignedRooms, $newAssignedRooms);
 
-    
+
+                if (!empty($roomsToRemove)) {
+                    AssignRoom::where('reservation_id', $reservation->id)
+                        ->whereIn('room_info_id', $roomsToRemove)
+                        ->delete();
+
+
+                    RoomInfo::whereIn('id', $roomsToRemove)->update([
+                        'status' => RoomInfoStatusEnum::AVAILABLE,
+                    ]);
+                }
+
+
+                foreach ($roomsToAdd as $roomId) {
+                    AssignRoom::create([
+                        'reservation_id' => $reservation->id,
+                        'room_info_id' => $roomId,
+                    ]);
+                }
+
+                RoomInfo::whereIn('id', $newAssignedRooms)->update([
+                    'status' => RoomInfoStatusEnum::OCCOPEID,
+                ]);
+            }
+
+            return $reservation;
+        } catch (\Exception $e) {
+            Log::error('Booking creation failed: ' . $e->getMessage());
+            throw $e;
+        }
+    }
 }

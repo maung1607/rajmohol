@@ -19,8 +19,7 @@ Booking | List
                                 <tr>
                                     <th>Booking ID</th>
                                     <th>Customer Info</th>
-                                    <th>Check In</th>
-                                    <th>Check Out</th>
+                                    <th>Date</th>
                                     <th>Adults</th>
                                     <th>Children</th>
                                     <th>Day Range</th>
@@ -64,10 +63,7 @@ Booking | List
                     data: 'customer_info'
                 }
                 , {
-                    data: 'check_in_date'
-                }
-                , {
-                    data: 'check_out_date'
+                    data: 'date'
                 }
                 , {
                     data: 'adults'
