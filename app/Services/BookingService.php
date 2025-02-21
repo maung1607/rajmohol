@@ -17,6 +17,48 @@ use Illuminate\Support\Str;
 
 class BookingService
 {
+    public function clientBooking($request)
+    {
+        try {
+            Log::info($request);
+            // Step 1: Create or retrieve the user
+            $user = $this->createUser($request);
+            Log::info($user);
+
+            // Step 2: Add the address
+            $address = $this->addAddress($user->id, $request);
+            Log::info($address);
+
+            // Step 3: Generate Unique Booking ID
+            $uniqueBookingId = $this->generateUniqueBookingId();
+
+            // Step 4: Convert Dates to MySQL Format
+            $checkInDate = Carbon::createFromFormat('m/d/Y h:i A', $request->check_in_date);
+            $checkOutDate = Carbon::createFromFormat('m/d/Y h:i A', $request->check_out_date);
+
+            // Step 5: Calculate the number of days (fixing diffInDays)
+            $dayRange = $checkInDate->diffInDays($checkOutDate) ?: 1;
+
+            // Step 6: Create Reservation
+            $reservation = Reservation::create([
+                'booking_id' => $uniqueBookingId,
+                'customer_id' => $user->id,
+                'address_id' => $address->id,
+                'creator_id' => $user->id??null,
+                'check_in_date' => $checkInDate->format('Y-m-d H:i:s'), // Store correctly formatted date
+                'check_out_date' => $checkOutDate->format('Y-m-d H:i:s'), // Store correctly formatted date
+                'adults' => $request->adults,
+                'children' => $request->children,
+                'special_request' => $request->special_request ?? '',
+                'status' => "Pending"
+            ]);
+
+            return $reservation;
+        } catch (\Exception $e) {
+            Log::error('Booking creation failed: ' . $e->getMessage());
+            throw $e;
+        }
+    }
     public function createBooking($request)
     {
 

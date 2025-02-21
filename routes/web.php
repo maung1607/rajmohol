@@ -11,6 +11,8 @@ Route::get('/services', [FrontendController::class, 'services'])->name('services
 Route::get('/booking', [FrontendController::class, 'booking'])->name('booking');
 Route::get('/rooms', [FrontendController::class, 'rooms'])->name('rooms');
 Route::get('/contact-us', [FrontendController::class, 'contactUs'])->name('contact.us');
+Route::post('/booking-requst', [FrontendController::class, 'bookingRequest'])->name('booking.request');
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
 ->middleware(['auth', 'verified'])->name('dashboard');
