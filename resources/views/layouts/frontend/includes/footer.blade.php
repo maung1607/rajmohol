@@ -1,9 +1,9 @@
-<div class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
+<div class="container-fluid bg-dark text-light footer wow fadeIn mt-4" data-wow-delay="0.1s">
     <div class="container pb-5">
         <div class="row g-5">
             <div class="col-md-6 col-lg-4">
                 <div class="bg-primary rounded p-4">
-                    <a href="index.html"><h1 class="text-white text-uppercase mb-3">Rajmohol</h1></a>
+                    <a href="index.html"><h1 class="text-white text-uppercase mb-3">Rajmahal</h1></a>
                     <p class="text-white mb-0">
                         <a class="text-dark fw-medium" href="https://htmlcodex.com/hotel-html-template-pro">Rajmohol</a>, build a professional website for your hotel business and grab the attention of new visitors upon your site’s launch.
                     </p>
@@ -47,10 +47,7 @@
         <div class="copyright">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Rajmohol</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    {{-- Designed By <a class="border-bottom" href="">Mong Matubbar</a> --}}
+                    &copy; <a class="border-bottom" href="#">Rajmahal</a>, All Right Reserved.
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-menu">
