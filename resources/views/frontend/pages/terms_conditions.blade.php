@@ -1,7 +1,7 @@
 @extends('layouts.frontend.app')
 
 @section('title')
-    About us - Rajmahal
+    Terms & Conditions- Rajmahal
 @endsection
 
 @section('content')
@@ -10,11 +10,11 @@
         style="background-image: url({{ asset('/') }}frontend/img/carousel-1.jpg);">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center pb-5">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">About Us</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Terms & Conditions</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">About</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Terms & Conditions</li>
                     </ol>
                 </nav>
             </div>
@@ -28,23 +28,64 @@
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
-                    <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Rajmahal</span> Hotel – A Blend of Luxury & Comfort </h1>
-                    <p class="mb-4">
-                        At Rajmahal Hotel, we take pride in offering a perfect balance of elegance, comfort, and exceptional
-                        hospitality. Whether you are traveling for business or leisure, our hotel provides a serene and
-                        luxurious retreat for all guests.
-
-                        With well-appointed rooms, world-class amenities, and a commitment to outstanding service, we ensure
-                        a delightful and memorable stay. Our dedicated team strives to make every moment special, from
-                        personalized guest services to exquisite dining experiences.
-
-                        Located in a prime area, Rajmahal Hotel offers easy access to key attractions, making it an ideal
-                        choice for travelers. We invite you to experience warm hospitality, impeccable service, and a stay
-                        that feels like home.
-
-                        Experience Rajmahal Hotel – Where Every Stay is Special!
-                    </p>
+                    <h6 class="section-title text-start text-primary text-uppercase">Terms & Conditions</h6>
+                    <div class="my-4">
+                       <h6>1. Booking & Reservation</h6>
+                       <ul>
+                        <li>All reservations are subject to availability.</li>
+                        <li>A valid ID proof is required at the time of check-in.</li>
+                        <li>Early check-in and late check-out are subject to availability and may incur additional charges</li>
+                       </ul>
+                    </div>
+                    <div class="my-4">
+                        <h6>2. Payment & Cancellation</h6>
+                        <ul>
+                         <li>Full or partial payment may be required at the time of booking.</li>
+                         <li>Cancellation policies vary based on the type of booking. Please check your reservation details.</li>
+                         <li>No-shows will be charged as per the hotel’s cancellation policy.</li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>3. Check-in & Check-out</h6>
+                        <ul>
+                         <li>Check-in time: 2:00 PM | Check-out time: 12:00 PM</li>
+                         <li>Late check-out may be available at an additional cost.</li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>4. Guest Conduct</h6>
+                        <ul>
+                         <li>Guests are expected to maintain decorum and follow hotel policies.</li>
+                         <li>Any damage to hotel property will be charged to the guest.</li>
+                         <li>Smoking is prohibited in non-smoking areas.
+                        </li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>5. Child & Extra Bed Policy</h6>
+                        <ul>
+                         <li>Children under a certain age may stay free with parents (as per hotel policy).</li>
+                         <li>Extra beds may be available on request at an additional charge.</li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>6. Pets Policy</h6>
+                        <ul>
+                         <li>Pets are not allowed unless specified otherwise.</li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>7. Liability</h6>
+                        <ul>
+                         <li>The hotel is not responsible for any loss of valuables. Guests are advised to use in-room safes.</li>
+                         <li>The hotel is not liable for unforeseen events such as natural disasters or emergencies.</li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>8. Privacy Policy</h6>
+                        <ul>
+                         <li>Guest information is kept confidential and used only for hotel services.</li>
+                     </div>
                     <div class="row g-3 pb-4">
                         <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
                             <div class="border rounded p-1">

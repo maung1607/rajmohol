@@ -13,8 +13,8 @@
                     <img class="w-100" src="{{ asset('/')  }}frontend/img/carousel-1.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 700px;">
-                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
-                            <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
+                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Relax, Refresh, Rejuvenate</h6>
+                            <h1 class="display-3 text-white mb-4 animated slideInDown">A Home Away from Home!</h1>
                             <a href="{{ route('rooms') }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
                             <a href="{{ route('booking') }}" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
                         </div>
@@ -24,8 +24,19 @@
                     <img class="w-100" src="{{ asset('/')  }}frontend/img/carousel-2.jpg" alt="Image">
                     <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                         <div class="p-3" style="max-width: 700px;">
-                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
-                            <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
+                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Where Comfort Meets Elegance</h6>
+                            <h1 class="display-3 text-white mb-4 animated slideInDown">Book Your Stay Today!</h1>
+                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
+                            <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="w-100" src="{{ asset('/')  }}frontend/img/carousel-2.jpg" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 700px;">
+                            <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Experience Luxury & Comfort at Rajmahal Hotel</h6>
+                            <h1 class="display-3 text-white mb-4 animated slideInDown">Your Perfect Stay Awaits!</h1>
                             <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
                             <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
                         </div>
@@ -53,8 +64,10 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
                     <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Hotelier</span></h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Rajmahal</span></h1>
+                    <p class="mb-4">
+                        We’re delighted to have you with us. Enjoy a comfortable stay with our warm hospitality and top-notch service. Let us know if you need any assistance.
+                    </p>
                     <div class="row g-3 pb-4">
                         <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
                             <div class="border rounded p-1">
@@ -225,10 +238,10 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="video">
-                    <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
-                        <span></span>
-                    </button>
+                <div >
+                    <div class="ratio ratio-16x9" style="min-height: 407px;">
+                        <iframe width="1280" height="1000" src="https://www.youtube.com/embed/a8thJyoDUy8" title="কুয়াকাটার বেস্ট সার্ভিসের বাজেটফ্রেন্ডলি হোটেল | Best Hotel In Kuakata | Kuakata Hotel Review" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
         </div>
@@ -244,8 +257,7 @@
                 <div class="modal-body">
                     <!-- 16:9 aspect ratio -->
                     <div class="ratio ratio-16x9">
-                        <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                            allow="autoplay"></iframe>
+                        <iframe width="1280" height="720" src="https://www.youtube.com/embed/a8thJyoDUy8" title="কুয়াকাটার বেস্ট সার্ভিসের বাজেটফ্রেন্ডলি হোটেল | Best Hotel In Kuakata | Kuakata Hotel Review" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -269,8 +281,8 @@
                                 <i class="fa fa-hotel fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">Rooms & Appartment</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3">24/7 Front Desk Service</h5>
+                        <p class="text-body mb-0">Assistance with check-in, check-out, and guest inquiries at any time.</p>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
@@ -280,8 +292,8 @@
                                 <i class="fa fa-utensils fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">Food & Restaurant</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3">Housekeeping</h5>
+                        <p class="text-body mb-0"> Daily room cleaning, fresh linens, and toiletries to ensure a comfortable stay.</p>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
@@ -291,8 +303,8 @@
                                 <i class="fa fa-spa fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">Spa & Fitness</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3">Room Service</h5>
+                        <p class="text-body mb-0"> Convenient in-room dining with a variety of food and beverage options.</p>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
@@ -302,8 +314,8 @@
                                 <i class="fa fa-swimmer fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">Sports & Gaming</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3">Car Parking Facility </h5>
+                        <p class="text-body mb-0">Safe and secure parking for guests.</p>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -313,8 +325,8 @@
                                 <i class="fa fa-glass-cheers fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">Event & Party</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3">Free Wi-Fi </h5>
+                        <p class="text-body mb-0"> High-speed internet access for work or leisure.</p>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
@@ -324,8 +336,8 @@
                                 <i class="fa fa-dumbbell fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="mb-3">GYM & Yoga</h5>
-                        <p class="text-body mb-0">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
+                        <h5 class="mb-3"> Transportation Service</h5>
+                        <p class="text-body mb-0">Easy travel arrangements to and from the bus station  .</p>
                     </a>
                 </div>
             </div>
@@ -339,34 +351,34 @@
         <div class="container">
             <div class="owl-carousel testimonial-carousel py-5">
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
+                    <p>An amazing stay! The staff was friendly, the rooms were clean, and the food was delicious. Highly recommend!</p>
                     <div class="d-flex align-items-center">
                         <img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/')  }}frontend/img/testimonial-1.jpg" style="width: 45px; height: 45px;">
                         <div class="ps-3">
-                            <h6 class="fw-bold mb-1">Client Name</h6>
-                            <small>Profession</small>
+                            <h6 class="fw-bold mb-1">Zara Rahman</h6>
+                            <small>Doctor</small>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
                 </div>
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
+                    <p>Excellent hospitality! The hotel ambiance was beautiful, and the service was top-notch. Will visit again!</p>
                     <div class="d-flex align-items-center">
                         <img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/')  }}frontend/img/testimonial-2.jpg" style="width: 45px; height: 45px;">
                         <div class="ps-3">
-                            <h6 class="fw-bold mb-1">Client Name</h6>
-                            <small>Profession</small>
+                            <h6 class="fw-bold mb-1">Abdullah </h6>
+                            <small>Business Man</small>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
                 </div>
                 <div class="testimonial-item position-relative bg-white rounded overflow-hidden">
-                    <p>Tempor stet labore dolor clita stet diam amet ipsum dolor duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem amet est kasd kasd et erat magna eos</p>
+                    <p>A perfect place for a relaxing getaway. Comfortable rooms and great amenities. Loved my stay!</p>
                     <div class="d-flex align-items-center">
                         <img class="img-fluid flex-shrink-0 rounded" src="{{ asset('/')  }}frontend/img/testimonial-3.jpg" style="width: 45px; height: 45px;">
                         <div class="ps-3">
-                            <h6 class="fw-bold mb-1">Client Name</h6>
-                            <small>Profession</small>
+                            <h6 class="fw-bold mb-1">Anondo Mondol</h6>
+                            <small>Teacher</small>
                         </div>
                     </div>
                     <i class="fa fa-quote-right fa-3x text-primary position-absolute end-0 bottom-0 me-4 mb-n1"></i>
@@ -378,7 +390,7 @@
 
 
     <!-- Team Start -->
-    <div class="container-xxl py-5 mb-5">
+    {{-- <div class="container-xxl py-5 mb-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title text-center text-primary text-uppercase">Our Team</h6>
@@ -451,7 +463,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Team End -->
 
 

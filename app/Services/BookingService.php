@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enum\PaymentMethodEnum;
 use App\Enum\PaymentStatusEnum;
 use App\Enum\RoomInfoStatusEnum;
 use App\Models\Address;
@@ -38,19 +39,23 @@ class BookingService
 
             // Step 5: Calculate the number of days (fixing diffInDays)
             $dayRange = $checkInDate->diffInDays($checkOutDate) ?: 1;
-
-            // Step 6: Create Reservation
+            // Step 6: Create the payment
+            $payment = $this->createPayment($request);
+            // Step 7: Create Reservation
             $reservation = Reservation::create([
                 'booking_id' => $uniqueBookingId,
                 'customer_id' => $user->id,
+                'payment_id' => $payment->id,
                 'address_id' => $address->id,
-                'creator_id' => $user->id??null,
+                'creator_id' => $user->id ?? null,
                 'check_in_date' => $checkInDate->format('Y-m-d H:i:s'), // Store correctly formatted date
                 'check_out_date' => $checkOutDate->format('Y-m-d H:i:s'), // Store correctly formatted date
                 'adults' => $request->adults,
                 'children' => $request->children,
                 'special_request' => $request->special_request ?? '',
-                'status' => "Pending"
+                'day_range' => $dayRange,
+                'status' => "Pending",
+
             ]);
 
             return $reservation;
@@ -152,7 +157,6 @@ class BookingService
     {
         // Create a payment record
         $dueAmount = $request->actual_amount - $request->paid_amount;
-        $dueAmount = $request->actual_amount - $request->paid_amount;
         $status = PaymentStatusEnum::PENDING;
         if ($dueAmount !== 0) {
             $status = PaymentStatusEnum::DUE;
@@ -162,14 +166,15 @@ class BookingService
             $status = PaymentStatusEnum::PENDING;
         }
 
+
         return Payments::create([
             'payment_number' => $this->generateUniqueBookingId(),
-            'actual_amount' => $request->actual_amount,
-            'total_amount' => $request->actual_amount,
-            'paid_amount' => $request->paid_amount,
-            'due_amount' => $request->actual_amount - $request->paid_amount,
+            'actual_amount' => $request->actual_amount ?? 0,
+            'total_amount' => $request->actual_amount ?? 0,
+            'paid_amount' => $request->paid_amount ?? 0,
+            'due_amount' => $dueAmount ?? 0,
             'discount' => $request->discount ?? 0,
-            'payment_method' => $request->payment_method,
+            'payment_method' => $request->payment_method ?? PaymentMethodEnum::ONLINE,
             'status' => $status,
             'payment_date' => $request->payment_date ?? now(),
         ]);

@@ -1,7 +1,7 @@
 @extends('layouts.frontend.app')
 
 @section('title')
-    About us - Rajmahal
+Privacy Policy- Rajmahal
 @endsection
 
 @section('content')
@@ -10,11 +10,11 @@
         style="background-image: url({{ asset('/') }}frontend/img/carousel-1.jpg);">
         <div class="container-fluid page-header-inner py-5">
             <div class="container text-center pb-5">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">About Us</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Privacy Policy</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">About</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Privacy Policy</li>
                     </ol>
                 </nav>
             </div>
@@ -28,23 +28,56 @@
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
-                    <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                    <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Rajmahal</span> Hotel – A Blend of Luxury & Comfort </h1>
-                    <p class="mb-4">
-                        At Rajmahal Hotel, we take pride in offering a perfect balance of elegance, comfort, and exceptional
-                        hospitality. Whether you are traveling for business or leisure, our hotel provides a serene and
-                        luxurious retreat for all guests.
-
-                        With well-appointed rooms, world-class amenities, and a commitment to outstanding service, we ensure
-                        a delightful and memorable stay. Our dedicated team strives to make every moment special, from
-                        personalized guest services to exquisite dining experiences.
-
-                        Located in a prime area, Rajmahal Hotel offers easy access to key attractions, making it an ideal
-                        choice for travelers. We invite you to experience warm hospitality, impeccable service, and a stay
-                        that feels like home.
-
-                        Experience Rajmahal Hotel – Where Every Stay is Special!
-                    </p>
+                    <h6 class="section-title text-start text-primary text-uppercase">Privacy Policy</h6>
+                    <p>At Rajmahal Hotel, we respect your privacy and are committed to protecting the personal information you share with us. This Privacy Policy explains how we collect, use, and safeguard your data.</p>
+                    <div class="my-4">
+                       <h6>1. Information We Collect</h6>
+                       <p>We may collect the following personal information:</p>
+                       <ul>
+                        <li>Name, contact details (phone number, email, address)</li>
+                        <li>Payment and billing details</li>
+                        <li>ID proof for verification</li>
+                        <li>Preferences and special requests</li>
+                        <li>Feedback and reviews</li>
+                       </ul>
+                    </div>
+                    <div class="my-4">
+                        <h6>2. How We Use Your Information</h6>
+                        <p>We use the collected data for:</p>
+                        <ul>
+                         <li>Booking and reservation processing</li>
+                         <li>Personalizing your stay experience</li>
+                         <li>Sending confirmations, updates, and promotional offers</li>
+                         <li>Security and legal compliance</li>
+                         <li>Improving our services and customer support
+                        </li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>3. Information Sharing & Security</h6>
+                        <ul>
+                         <li>We do not sell or rent personal data to third parties.</li>
+                         <li>Your data may be shared with service providers (e.g., payment processors) only for hotel-related services.</li>
+                         <li>We take strict measures to ensure your data is secure and protected.</li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>4. Cookies & Tracking Technologies</h6>
+                        <ul>
+                         <li>Our website may use cookies to enhance user experience and improve services.</li>
+                         <li>You can disable cookies through your browser settings.
+                        </li>
+                        </li>
+                        </ul>
+                     </div>
+                     <div class="my-4">
+                        <h6>5. Guest Rights 
+                        </h6>
+                        <ul>
+                         <li>You can request access, modification, or deletion of your personal data.</li>
+                        </ul>
+                     </div>
+                     
                     <div class="row g-3 pb-4">
                         <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
                             <div class="border rounded p-1">

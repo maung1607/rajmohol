@@ -11,7 +11,9 @@ Route::get('/services', [FrontendController::class, 'services'])->name('services
 Route::get('/booking', [FrontendController::class, 'booking'])->name('booking');
 Route::get('/rooms', [FrontendController::class, 'rooms'])->name('rooms');
 Route::get('/contact-us', [FrontendController::class, 'contactUs'])->name('contact.us');
-Route::post('/booking-requst', [FrontendController::class, 'bookingRequest'])->name('booking.request');
+Route::post('/booking-request', [FrontendController::class, 'bookingRequest'])->name('booking.request');
+Route::get('/terms-and-conditions', [FrontendController::class, 'termsAndCondtions'])->name('terms.conditions');
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacyPolicy');
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])

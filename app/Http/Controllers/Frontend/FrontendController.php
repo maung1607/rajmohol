@@ -17,7 +17,8 @@ class FrontendController extends Controller
     }
     public function index()
     {
-        return view("frontend.pages.index");
+        $roomClasses = RoomClass::with('image')->get();
+        return view("frontend.pages.index",['roomClasses' => $roomClasses]);
     }
     public function aboutUs()
     {
@@ -39,12 +40,12 @@ class FrontendController extends Controller
     {
         $roomClasses = RoomClass::with('image')->get();
         //return $roomClasses;
-        return view("frontend.pages.rooms",['roomClasses'=>$roomClasses]);
+        return view("frontend.pages.rooms", ['roomClasses' => $roomClasses]);
     }
     public function bookingRequest(Request $request)
     {
-        DB::beginTransaction();
-        
+
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
@@ -54,15 +55,25 @@ class FrontendController extends Controller
             'adults' => 'required|integer|min:1',
             'children' => 'nullable|integer|min:0',
             'city' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:10',
+            'postal_code' => 'required|max:10',
             'address' => 'required|string|max:255',
             'specail_request' => 'nullable|string|max:500',
         ]);
-        
-        $reservation = $this->bookingService->clientBooking($request);
-        DB::commit();
-        return redirect()->back()->with('success', 'Your booking request has been submitted successfully!');
 
-        
+        DB::beginTransaction();
+        $this->bookingService->clientBooking($request);
+        DB::commit();
+
+
+
+        return redirect()->back()->with('success', 'Your booking request has been submitted successfully!');
+    }
+    public function termsAndCondtions()
+    {
+        return view('frontend.pages.terms_conditions');
+    }
+    public function privacyPolicy()
+    {
+        return view('frontend.pages.privacy_policy');
     }
 }

@@ -2,10 +2,10 @@
     <div class="container pb-5">
         <div class="row g-5">
             <div class="col-md-6 col-lg-4">
-                <div class="bg-primary rounded p-4">
+                <div class="rounded p-4">
                     <a href="index.html"><h1 class="text-white text-uppercase mb-3">Rajmahal</h1></a>
                     <p class="text-white mb-0">
-                        <a class="text-dark fw-medium" href="https://htmlcodex.com/hotel-html-template-pro">Rajmohol</a>, build a professional website for your hotel business and grab the attention of new visitors upon your site’s launch.
+                       Rajmohol, build a professional website for your hotel business and grab the attention of new visitors upon your site’s launch.
                     </p>
                 </div>
             </div>
