@@ -1,4 +1,4 @@
-<?
+<?php
 
 use App\Http\Controllers\Backend\BookingController;
 use Illuminate\Support\Facades\Route;
