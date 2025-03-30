@@ -1,4 +1,4 @@
-<?
+<?php
 
 use App\Http\Controllers\Backend\RoomClassController;
 use App\Http\Controllers\Backend\RoomController;
