@@ -1,46 +1,46 @@
-name: Deploy Laravel on Rajmahal
+# name: Deploy Laravel on Rajmahal
 
-on:
-  push:
-    branches:
-      - master 
+# on:
+#   push:
+#     branches:
+#       - master 
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v3
+#     steps:
+#       - name: Checkout repository code
+#         uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2" 
-          extensions: mbstring, xml, ctype, json, mysql, zip, fileinfo
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: "8.2" 
+#           extensions: mbstring, xml, ctype, json, mysql, zip, fileinfo
 
-      - name: Install Dependencies
-        run: composer install --no-dev --prefer-dist --optimize-autoloader --no-progress --no-interaction
+#       - name: Install Dependencies
+#         run: composer install --no-dev --prefer-dist --optimize-autoloader --no-progress --no-interaction
 
-      - name: Synchronize Files To Server
-        uses: easingthemes/ssh-deploy@v2
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          TARGET: /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
-          EXCLUDE: "/node_modules/ /storage/logs/ /storage/framework/cache/"
+#       - name: Synchronize Files To Server
+#         uses: easingthemes/ssh-deploy@v2
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+#           REMOTE_HOST: ${{ secrets.SSH_HOST }}
+#           REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+#           TARGET: /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+#           EXCLUDE: "/node_modules/ /storage/logs/ /storage/framework/cache/"
 
-      - name: Set Permissions
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
-          cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
-          chmod -R 775 storage bootstrap/cache
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan route:clear
-          php artisan view:clear
-          EOF
+#       - name: Set Permissions
+#         run: |
+#           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
+#           cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+#           chmod -R 775 storage bootstrap/cache
+#           php artisan config:clear
+#           php artisan cache:clear
+#           php artisan route:clear
+#           php artisan view:clear
+#           EOF
 # name: Deploy Laravel on Hostinger
 
 # on:
@@ -78,3 +78,56 @@ jobs:
 #           php artisan route:clear
 #           php artisan view:clear
 #           EOF
+
+name: Rajmahal and deploy
+
+on:
+  push:
+    branches: master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: setup environment variables
+        run: cp .env.example .env
+      - name: Install composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Install node dependencies
+        run: npm ci
+      - name: Setup Project
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan key:generate
+          npm run build
+      - name: Directory Permissions
+        run: chmod 755 -R storage bootstrap/cache
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+      steps:
+        - name: Deploy PHP to Server
+          if: ${{ success() }}
+          uses: appleboy/ssh-action@1.2.1
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            port: ${{ secrets.SSH_PORT }}
+            key: ${{ secrets.SSH_KEY }}
+            script_stop: true
+            script: |
+              cd domains/mongmatubbar.com/public_html/rajmahal
+              git pull
+              php composer.phar install
+        - name: Copy Build Files to Target Server
+          run: |
+            rsync -r -e "ssh -p ${{ secrets.SSH_PORT }}" ${{ github.workspace }}/public/build/ ${{secretes.SSH_USERNAME}}@${{secrets.SSH_HOST}}:~domains/mongmatubbar.com/public_html/rajmahal/public/build
+          env:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }} 
