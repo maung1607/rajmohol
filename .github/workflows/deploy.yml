@@ -47,9 +47,9 @@ jobs:
 
     steps:
       - name: Install SSH key
-          uses: shivammathur/setup-php@v2
-          with:
-            ssh-key: ${{ secrets.SSH_KEY }}
+        uses: shivammathur/setup-php@v2
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
       - name: Deploy PHP to Server
         uses: appleboy/ssh-action@v0.1.7
         with:
