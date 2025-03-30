@@ -46,10 +46,6 @@ jobs:
     needs: build
 
     steps:
-      - name: Install SSH key
-        uses: shivammathur/setup-php@v2
-        with:
-          ssh-key: ${{ secrets.SSH_KEY }}
       - name: Deploy PHP to Server
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -59,7 +55,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+            cd domains/mongmatubbar.com/public_html/rajmahal
             git pull
             composer install --no-dev --prefer-dist --no-interaction --no-progress
             chmod -R 775 storage bootstrap/cache
