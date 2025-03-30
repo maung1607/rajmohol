@@ -33,10 +33,22 @@ jobs:
 
       - name: Build Assets
         run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan key:generate
           npm run build
+
+      - name: Set Directory Permissions
+        run: chmod -R 775 storage bootstrap/cache
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
       - name: Deploy PHP to Server
         if: ${{ success() }}
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -44,24 +56,14 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            cd domains
-            cd mongmatubbar.com
-            cd public_html
-            cd rajmahal
+            cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
             git pull
-            php composer.phar install
             composer install --no-dev --prefer-dist --no-interaction --no-progress
             chmod -R 775 storage bootstrap/cache
-      - name: Install SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa2
-          chmod 600 ~/.ssh/id_rsa2
-          ssh-keyscan -t rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> 
-          ~/.ssh/known_hosts
+
       - name: Copy Build Files to Target Server
         run: |
           rsync -r -e "ssh -p ${{ secrets.SSH_PORT }}" ${{ github.workspace }}/public/build/ \
           ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:domains/mongmatubbar.com/public_html/rajmahal/public/build
-
-
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
