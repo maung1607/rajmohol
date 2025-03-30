@@ -2,8 +2,7 @@ name: Rajmahal and Deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   build:
