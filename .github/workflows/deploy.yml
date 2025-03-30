@@ -1,52 +1,71 @@
-name: Rajmahal and deploy
+name: Rajmahal and Deploy
 
 on:
   push:
-    branches: master
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: shivammathur/setup-php@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: setup environment variables
+
+      - name: Setup Environment Variables
         run: cp .env.example .env
-      - name: Install composer Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Install node dependencies
+
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress
+
+      - name: Install Node Dependencies
         run: npm ci
-      - name: Setup Project
+
+      - name: Build Assets
         run: |
           php artisan config:clear
           php artisan cache:clear
           php artisan key:generate
           npm run build
-      - name: Directory Permissions
-        run: chmod 755 -R storage bootstrap/cache
+
+      - name: Set Directory Permissions
+        run: chmod -R 775 storage bootstrap/cache
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
-      steps:
-        - name: Deploy PHP to Server
-          if: ${{ success() }}
-          uses: appleboy/ssh-action@1.2.1
-          with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USERNAME }}
-            port: ${{ secrets.SSH_PORT }}
-            key: ${{ secrets.SSH_KEY }}
-            script_stop: true
-            script: |
-              cd domains/mongmatubbar.com/public_html/rajmahal
-              git pull
-              php composer.phar install
-        - name: Copy Build Files to Target Server
-          run: |
-            rsync -r -e "ssh -p ${{ secrets.SSH_PORT }}" ${{ github.workspace }}/public/build/ ${{secretes.SSH_USERNAME}}@${{secrets.SSH_HOST}}:~domains/mongmatubbar.com/public_html/rajmahal/public/build
-          env:
-            SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }} 
+
+    steps:
+      - name: Deploy PHP to Server
+        uses: appleboy/ssh-action@1.2.1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          script: |
+            cd domains/mongmatubbar.com/public_html/rajmahal
+            git pull
+            composer install --no-dev --prefer-dist --no-interaction --no-progress
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan migrate --force
+            chmod -R 775 storage bootstrap/cache
+
+      - name: Copy Build Files to Target Server
+        run: |
+          rsync -r -e "ssh -p ${{ secrets.SSH_PORT }}" ${{ github.workspace }}/public/build/ \
+          ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:domains/mongmatubbar.com/public_html/rajmahal/public/build
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
