@@ -60,9 +60,9 @@ jobs:
             composer install --no-dev --prefer-dist --no-interaction --no-progress
             chmod -R 775 storage bootstrap/cache
 
-      - name: Copy Build Files to Target Server
-        run: |
-          rsync -r -e "ssh -p ${{ secrets.SSH_PORT }}" ${{ github.workspace }}/public/build/ \
-          ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:domains/mongmatubbar.com/public_html/rajmahal/public/build
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+      # - name: Copy Build Files to Target Server
+      #   run: |
+      #     rsync -r -e "ssh -p ${{ secrets.SSH_PORT }}" ${{ github.workspace }}/public/build/ \
+      #     ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:domains/mongmatubbar.com/public_html/rajmahal/public/build
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
