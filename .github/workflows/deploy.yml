@@ -63,9 +63,13 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           port: ${{ secrets.SSH_PORT }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+            # Clone repository if doesn't exist
+            if [ ! -d .git ]; then
+              git clone https://github.com/maung1607/rajmohol.git .
+            fi
             git reset --hard HEAD
             git pull origin master
             composer install --no-dev --prefer-dist --no-interaction --no-progress
