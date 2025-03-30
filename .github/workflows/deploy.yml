@@ -59,7 +59,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            cd domains/mongmatubbar.com/public_html/rajmahal
+            cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
             git pull
             composer install --no-dev --prefer-dist --no-interaction --no-progress
             chmod -R 775 storage bootstrap/cache
