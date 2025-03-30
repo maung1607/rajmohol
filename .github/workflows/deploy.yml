@@ -1,76 +1,39 @@
-# name: Deploy Laravel on Rajmahal
-
-# on:
-#   push:
-#     branches:
-#       - master 
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout repository code
-#         uses: actions/checkout@v3
-
-#       - name: Setup PHP
-#         uses: shivammathur/setup-php@v2
-#         with:
-#           php-version: "8.2" 
-#           extensions: mbstring, xml, ctype, json, mysql, zip, fileinfo
-
-#       - name: Install Dependencies
-#         run: composer install --no-dev --prefer-dist --optimize-autoloader --no-progress --no-interaction
-
-#       - name: Synchronize Files To Server
-#         uses: easingthemes/ssh-deploy@v2
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#           REMOTE_HOST: rajmahal.mongmatubbar.com
-#           REMOTE_USER: u195346316
-#           TARGET: /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
-#           EXCLUDE: "/node_modules/ /storage/logs/ /storage/framework/cache/"
-
-#       - name: Set Permissions
-#         run: |
-#           ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
-#           cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
-#           chmod -R 775 storage bootstrap/cache
-#           php artisan config:clear
-#           php artisan cache:clear
-#           php artisan route:clear
-#           php artisan view:clear
-#           EOF
-name: Deploy Laravel on Hostinger
+name: Deploy Laravel on Rajmahal
 
 on:
   push:
     branches:
-      - master  
+      - master 
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository code
         uses: actions/checkout@v3
 
-      - name: Set Up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa2
-          chmod 600 ~/.ssh/id_rsa2
-          ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2" 
+          extensions: mbstring, xml, ctype, json, mysql, zip, fileinfo
 
-      - name: Deploy Code to Hostinger
-        run: |
-          rsync -avz --exclude=node_modules --exclude=storage/logs \
-          -e "ssh -p ${{ secrets.SSH_PORT }}" ./ u195346316@${{ secrets.SSH_HOST }}:/home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+      - name: Install Dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader --no-progress --no-interaction
 
-      - name: Set Permissions & Run Migrations
+      - name: Synchronize Files To Server
+        uses: easingthemes/ssh-deploy@v2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          TARGET: /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+          EXCLUDE: "/node_modules/ /storage/logs/ /storage/framework/cache/"
+
+      - name: Set Permissions
         run: |
-          ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no u195346316@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
           chmod -R 775 storage bootstrap/cache
           php artisan config:clear
@@ -78,3 +41,40 @@ jobs:
           php artisan route:clear
           php artisan view:clear
           EOF
+# name: Deploy Laravel on Hostinger
+
+# on:
+#   push:
+#     branches:
+#       - master  
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v3
+
+#       - name: Set Up SSH
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa2
+#           chmod 600 ~/.ssh/id_rsa2
+#           ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+#       - name: Deploy Code to Hostinger
+#         run: |
+#           rsync -avz --exclude=node_modules --exclude=storage/logs \
+#           -e "ssh -p ${{ secrets.SSH_PORT }}" ./ u195346316@${{ secrets.SSH_HOST }}:/home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+
+#       - name: Set Permissions & Run Migrations
+#         run: |
+#           ssh -p ${{ secrets.SSH_PORT }} -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no u195346316@${{ secrets.SSH_HOST }} << 'EOF'
+#           cd /home/u195346316/domains/mongmatubbar.com/public_html/rajmahal
+#           chmod -R 775 storage bootstrap/cache
+#           php artisan config:clear
+#           php artisan cache:clear
+#           php artisan route:clear
+#           php artisan view:clear
+#           EOF
