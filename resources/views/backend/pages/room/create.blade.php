@@ -69,31 +69,6 @@ Add New Room | Create
                                             @endif
                                         </div>
                                     </div>
-
-                                    <!-- Right Column -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="room_type">Room Type</label>
-                                            <select name="room_type" id="room_type" class="form-control">
-                                                <option>Select Room Type</option>
-                                                <option value="Single" {{ old('room_type') == 'Single' ? 'selected' : '' }}>Single</option>
-                                                <option value="Double" {{ old('room_type') == 'Double' ? 'selected' : '' }}>Double</option>
-                                                <option value="Suite" {{ old('room_type') == 'Suite' ? 'selected' : '' }}>Suite</option>
-                                            </select>
-                                            @if ($errors->has('room_type'))
-                                            <small class="text-danger">{{ $errors->first('room_type') }}</small>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Description</label>
-                                            <textarea id="description" name="description" class="form-control" placeholder="Enter description">{{ old('description') }}</textarea>
-                                            @if ($errors->has('description'))
-                                            <small class="text-danger">{{ $errors->first('description') }}</small>
-                                            @endif
-                                        </div>
-
-                                    </div>
-
                                     <div class="col-md-12">
                                         <!-- Submit Button -->
                                         <div class="form-group mt-3">

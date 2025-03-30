@@ -33,9 +33,6 @@ class RoomController extends Controller
             ->addColumn('room_class', function ($record) {
                 return $record?->room_class?->name;
             })
-            ->addColumn('description', function ($record) {
-                return Str::limit($record->description, 20);
-            })
             ->addColumn('status', function ($record) {
                 return $record->status;
             })
@@ -71,14 +68,10 @@ class RoomController extends Controller
         $validatedData = $request->validate([
             'room_number' => 'required|unique:room_infos',
             'room_class_id' => 'required',
-            'room_type' => 'required',
-            'description' => 'string|max:1000'
         ]);
         
         RoomInfo::create($validatedData);
-       
         flash()->option('position', 'bottom-right')->success('Room created successfully!.');
-
         return redirect()->back();
     }
     public function edit($id)
@@ -93,8 +86,6 @@ class RoomController extends Controller
         $validatedData = $request->validate([
             'room_number' => 'required|string|max:255|unique:room_infos,room_number,' . $request->input('id'),
             'room_class_id' => 'required|numeric',
-            'room_type' => 'required|string',
-            'description' => 'required|string|max:1000',
             'id' => 'required|exists:room_infos,id', 
         ],
         [

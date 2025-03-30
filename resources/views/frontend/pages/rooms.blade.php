@@ -37,7 +37,7 @@
                     @if($roomClass?->image)
                     <div class="position-relative">
                         <img height="300px" class="img-fluid " src="{{ asset($roomClass?->image?->value) }}" alt="">
-                        <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
+                        <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">৳{{ $roomClass?->price??0 }}/Night</small>
                     </div>
                     @endif
                     <div class="p-4 mt-2">
@@ -52,13 +52,15 @@
                             </div>
                         </div>
                         <div class="d-flex mb-3">
-                            <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                            <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
+                            <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>{{ $roomClass->number_of_beds }}
+                                Bed</small>
+                            <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>{{ $roomClass->number_of_baths }}
+                                Bath</small>
                             <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
                         </div>
                         <p class="text-body mb-3">{{ $roomClass->description }}.</p>
                         <div class="d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
+                            {{-- <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a> --}}
                             <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
                         </div>
                     </div>

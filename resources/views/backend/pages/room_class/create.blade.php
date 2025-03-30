@@ -64,11 +64,12 @@
 
                                 <!-- Right Column -->
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="file">Image</label>
-                                        <input id="file" type="file" name="image" class="form-control">
-                                        @if ($errors->has('image'))
-                                            <small class="text-danger">{{ $errors->first('image') }}</small>
+                                    <div class="form-group">        
+                                        <label for="number_of_beds">Number Of Beds</label>
+                                        <input id="number_of_beds" type="text" name="number_of_beds" placeholder="Enter number of beds"
+                                            class="form-control" value="{{ old('number_of_beds') }}">
+                                        @if ($errors->has('number_of_baths'))
+                                            <small class="text-danger">{{ $errors->first('number_of_baths') }}</small>
                                         @endif
                                     </div>
 
@@ -88,6 +89,26 @@
                                     @if ($errors->has('description'))
                                         <small class="text-danger">{{ $errors->first('description') }}</small>
                                     @endif
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="file">Image</label>
+                                        <input id="file" type="file" name="image" class="form-control">
+                                        @if ($errors->has('image'))
+                                            <small class="text-danger">{{ $errors->first('image') }}</small>
+                                        @endif
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">        
+                                        <label for="number_of_baths">Number Of Baths</label>
+                                        <input id="number_of_baths" type="text" name="number_of_baths" placeholder="Enter number of baths"
+                                            class="form-control" value="{{ old('number_of_baths') }}">
+                                        @if ($errors->has('number_of_baths'))
+                                            <small class="text-danger">{{ $errors->first('number_of_baths') }}</small>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
 

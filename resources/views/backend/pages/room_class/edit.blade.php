@@ -64,20 +64,15 @@
 
                                 <!-- Right Column -->
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="file">Image</label>
-                                        <div class="d-flex">
-                                            <input id="file" type="file" name="image" class="form-control mr-2">
-                                            @if ($roomClass?->image?->value)
-                                                <img src="{{ asset($roomClass?->image?->value) }}" class=""
-                                                    alt="{{ $roomClass?->image?->value }}" width="100" height="100">
-                                            @endif
-
-                                            @if ($errors->has('image'))
-                                                <small class="text-danger">{{ $errors->first('image') }}</small>
-                                            @endif
-                                        </div>
+                                    <div class="form-group">        
+                                        <label for="number_of_beds">Number Of Beds</label>
+                                        <input id="number_of_beds" type="text" name="number_of_beds" placeholder="Enter number of beds"
+                                            class="form-control" value="{{ $roomClass->number_of_beds ?? old('number_of_beds') }}">
+                                        @if ($errors->has('number_of_baths'))
+                                            <small class="text-danger">{{ $errors->first('number_of_baths') }}</small>
+                                        @endif
                                     </div>
+
 
                                     <div class="form-group">
                                         <label for="discount">Discount(%)</label>
@@ -96,7 +91,37 @@
                                         <small class="text-danger">{{ $errors->first('description') }}</small>
                                     @endif
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="file">Image</label>
+                                        <div class="">
+                                            <input id="file" type="file" name="image" class="form-control mr-2">
+                                            <div class="mt-1">
+                                                @if ($roomClass?->image?->value)
+                                                <img src="{{ asset($roomClass?->image?->value) }}" class=""
+                                                    alt="{{ $roomClass?->image?->value }}" width="100" height="100">
+                                            @endif
+                                            </div>
+    
+                                            @if ($errors->has('image'))
+                                                <small class="text-danger">{{ $errors->first('image') }}</small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">        
+                                        <label for="number_of_baths">Number Of Baths</label>
+                                        <input id="number_of_baths" type="text" name="number_of_baths" placeholder="Enter number of baths"
+                                            class="form-control" value="{{ $roomClass->number_of_baths ?? old('number_of_baths') }}">
+                                        @if ($errors->has('number_of_baths'))
+                                            <small class="text-danger">{{ $errors->first('number_of_baths') }}</small>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
+                            
 
                             <!-- Submit Button -->
                             <div class="form-group mt-3">

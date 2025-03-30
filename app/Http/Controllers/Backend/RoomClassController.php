@@ -39,12 +39,17 @@ class RoomClassController extends Controller
             ->addColumn('discount', function ($roomClass) {
                 return $roomClass->discount . '%';
             })
+            ->addColumn('beds', function ($roomClass) {
+                return $roomClass->number_of_beds;
+            })
+            ->addColumn('baths', function ($roomClass) {
+                return $roomClass->number_of_baths;
+            })
             ->addColumn('image', function ($roomClass) {
-                // Check if an image is present
                 if ($roomClass->image) {
                     return '<img src="' . asset($roomClass->image->value) . '" alt="image" class="tb-image w-[100px] h-[100px]" height="100px" width="100px"   />';
                 } else {
-                    return ''; // Handle case where no image is found
+                    return ''; 
                 }
             })
             ->addColumn('actions', function ($roomClass) {
@@ -81,6 +86,8 @@ class RoomClassController extends Controller
             'discount' => 'required|numeric',
             'description' => 'required|string|max:1000',
             'image' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'number_of_beds' => 'required|numeric',
+            'number_of_baths' => 'required|numeric'
         ], [
             'name.required' => 'The name field is required.',
             'price.numeric' => 'The price must be a valid number.',
@@ -94,14 +101,16 @@ class RoomClassController extends Controller
             'price' => $request->input('price'),
             'discount' => $request->input('discount'),
             'description' => $request->input('description'),
+            'number_of_beds' => $request->input('number_of_beds'),
+            'number_of_baths' => $request->input('number_of_baths'),
         ]);
         $imagePath = uploadImage($request->file('image'), 'uploads/images/room_class', RoomClass::class, $roomClass->id);
         if (!$imagePath) {
             return back()->with('error', 'Failed to upload image.');
         }
         DB::commit();
-
-        return redirect()->back()->with('success', 'Room class created successfully!');
+        flash()->option('position', 'bottom-right')->success('Room class created successfully!.');
+        return redirect()->back();
     }
     public function edit($id)
     {
@@ -116,6 +125,8 @@ class RoomClassController extends Controller
             'discount' => 'required|numeric',
             'description' => 'required|string|max:1000',
             'image' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'number_of_beds' => 'required|numeric',
+            'number_of_baths' => 'required|numeric',
         ], [
             'name.required' => 'The name field is required.',
             'price.numeric' => 'The price must be a valid number.',
@@ -127,6 +138,8 @@ class RoomClassController extends Controller
         $roomClass->price = $request->input('price');
         $roomClass->discount = $request->input('discount');
         $roomClass->description = $request->input('description');
+        $roomClass->number_of_beds = $request->input('number_of_beds');
+        $roomClass->number_of_baths = $request->input('number_of_baths');
         $roomClass->save();
 
         if($request->hasFile('image'))
@@ -138,12 +151,14 @@ class RoomClassController extends Controller
             }
             uploadImage($request->file('image'), 'uploads/images/room_class', RoomClass::class, $roomClass->id);
         }
+        flash()->option('position', 'bottom-right')->success('Room class updated successfully!.');
 
-        return redirect()->route('room.class.index')->with('success', 'Room class updated successfully!');
+        return redirect()->route('room.class.index');
     }
     public function destroy($id)
     {
         RoomClass::destroy($id);
-        return redirect()->route('room.class.index')->with('success', 'Room class deleted successfully!');
+        flash()->option('position', 'bottom-right')->success('Room class deleted successfully!.');
+        return redirect()->route('room.class.index');
     }
 }

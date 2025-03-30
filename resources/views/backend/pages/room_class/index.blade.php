@@ -21,6 +21,8 @@
                                         <th>Description</th>
                                         <th>Price</th>
                                         <th>Discount</th>
+                                        <th>Beds</th>
+                                        <th>Bath</th>
                                         <th>Image</th>
                                         <th>Action</th>
                                     </tr>
@@ -64,6 +66,12 @@
                     },
                     {
                         data: 'discount'
+                    },
+                    {
+                        data: 'beds'
+                    },
+                    {
+                        data: 'baths'
                     },
                     {
                         data: 'image'

@@ -2,7 +2,6 @@
 @section('title')
 Edit Room | Create
 @endsection
-
 @section('content')
 <div class="row">
     <div class="col-12 col-sm-12 col-lg-12">
@@ -11,8 +10,6 @@ Edit Room | Create
                 <h5>Edit Room</h5>
                 <a href="{{ route('room.index') }}" class="btn btn-info">Back</a>
             </div>
-
-
             <div class="card-body">
                 <div class="col-md-8 mx-auto">
                     <div class="my-2">
@@ -67,31 +64,6 @@ Edit Room | Create
                                             @endif
                                         </div>
                                     </div>
-
-                                    <!-- Right Column -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="room_type">Room Type</label>
-                                            <select name="room_type" id="room_type" class="form-control">
-                                                <option>Select Room Type</option>
-                                                <option value="Single" {{ $roomInfo->room_type??old('room_type') == 'Single' ? 'selected' : '' }}>Single</option>
-                                                <option value="Double" {{ $roomInfo->room_type??old('room_type') == 'Double' ? 'selected' : '' }}>Double</option>
-                                                <option value="Suite" {{ $roomInfo->room_type??old('room_type') == 'Suite' ? 'selected' : '' }}>Suite</option>
-                                            </select>
-                                            @if ($errors->has('room_type'))
-                                            <small class="text-danger">{{ $errors->first('room_type') }}</small>
-                                            @endif
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="description">Description</label>
-                                            <textarea id="description" name="description" class="form-control" placeholder="Enter description">{{ $roomInfo->description??old('description') }}</textarea>
-                                            @if ($errors->has('description'))
-                                            <small class="text-danger">{{ $errors->first('description') }}</small>
-                                            @endif
-                                        </div>
-
-                                    </div>
-
                                     <div class="col-md-12">
                                         <!-- Submit Button -->
                                         <div class="form-group mt-3">

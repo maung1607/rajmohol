@@ -15,6 +15,8 @@ class RoomClass extends Model
         'description',
         'price',
         'discount',
+        'number_of_beds',
+        'number_of_baths'
     ];
 
     public function image():MorphOne

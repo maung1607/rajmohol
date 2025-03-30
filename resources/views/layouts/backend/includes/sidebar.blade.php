@@ -8,14 +8,17 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Main</li>
             <li class="dropdown {{ isActiveRoute('dashboard') }}">
-                <a href="{{  route('dashboard') }}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+                <a href="{{ route('dashboard') }}" class="nav-link"><i
+                        data-feather="monitor"></i><span>Dashboard</span></a>
             </li>
-            <li class="dropdown {{ isActiveRoute('booking.index') }}
+            <li
+                class="dropdown {{ isActiveRoute('booking.index') }}
              {{ isActiveRoute('booking.create') }} 
               {{ isActiveRoute('booking.edit') }}
                 {{ isActiveRoute('booking.details') }}
                  ">
-                <a href="{{ route('booking.index') }}" class="nav-link"><i data-feather="briefcase"></i><span>Bookings</span></a>
+                <a href="{{ route('booking.index') }}" class="nav-link"><i
+                        data-feather="briefcase"></i><span>Bookings</span></a>
             </li>
             {{-- <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
@@ -27,7 +30,7 @@
             </li> --}}
             <li class="menu-header">Settings</li>
 
-            <li class="dropdown">
+            {{-- <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="flag"></i><span>Web</span></a>
                 <ul class="dropdown-menu">
@@ -42,24 +45,22 @@
                     <li><a href="carousel.html">Contacts</a></li>
                     <li><a href="carousel.html">Reviews</a></li>
                 </ul>
-            </li>
-            <li class="dropdown 
-            {{ isActiveRoute('room.index') }} 
-            {{ isActiveRoute('room.create') }} 
-             {{ isActiveRoute('room.edit') }}
+            </li> --}}
+            <li
+                class="dropdown 
+           
               {{ isActiveRoute('room.class.index') }}
               {{ isActiveRoute('room.class.create') }}
               {{ isActiveRoute('room.class.edit') }}
               ">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="flag"></i><span>Rooms</span></a>
-                <ul class="dropdown-menu active">
-                    <li><a class="nav-link" href="{{ route('room.index') }}">All Rooms</a></li>
-                </ul>
-                <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('room.class.index') }}">All Room Classes</a></li>
-                </ul>
-
+                <a href="{{ route('room.class.index') }}" class="menu-toggle nav-link"><i
+                        ></i><span>All Room Classes</span></a>
+            </li>
+            <li class=" {{ isActiveRoute('room.index') }} 
+            {{ isActiveRoute('room.create') }} 
+             {{ isActiveRoute('room.edit') }}">
+                <a href="{{ route('room.index') }}" class="menu-toggle nav-link"><i
+                    ></i><span>All Rooms</span></a>
             </li>
         </ul>
     </aside>
