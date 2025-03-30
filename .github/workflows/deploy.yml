@@ -31,12 +31,12 @@ jobs:
       - name: Install Node Dependencies
         run: npm ci
 
-      - name: Build Assets
-        run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan key:generate
-          npm run build
+      # - name: Build Assets
+      #   run: |
+      #     php artisan config:clear
+      #     php artisan cache:clear
+      #     php artisan key:generate
+      #     npm run build
 
       - name: Set Directory Permissions
         run: chmod -R 775 storage bootstrap/cache
