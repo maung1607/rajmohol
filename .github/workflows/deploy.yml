@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Deploy PHP to Server
-        uses: appleboy/ssh-action@1.2.1
+        uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
@@ -58,9 +58,6 @@ jobs:
             cd domains/mongmatubbar.com/public_html/rajmahal
             git pull
             composer install --no-dev --prefer-dist --no-interaction --no-progress
-            php artisan config:clear
-            php artisan cache:clear
-            php artisan migrate --force
             chmod -R 775 storage bootstrap/cache
 
       - name: Copy Build Files to Target Server
